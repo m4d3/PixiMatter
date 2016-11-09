@@ -175,24 +175,29 @@
               for(let i = 0; i < cluster.length; i++) {
                 console.log("horizontal: "+cluster.horizontal+" count: "+i);
                 if(cluster.horizontal) {
-                  //chm.fadeOut(animals[cluster.column + i][cluster.row]);
-                  animals[cluster.column + i][cluster.row].alpha = 0.2;
+                  removeAnimal(animals[cluster.column + i][cluster.row]);
+                  //animals[cluster.column + i][cluster.row].alpha = 0.2;
                   if(cluster.row !== 0) {
                     for(let j = cluster.row; j > -1; j--) {
-                      chm.slide(animals[cluster.column + i][j],(cluster.column+i)* 100, (j + 1) * 100);
+                      chm.slide(animals[cluster.column + i][j],(cluster.column+i)* 100, (j + 1) * 100, 60, "decelerationCubed");
                     }
                   }
                 } else {
-                  //chm.fadeOut(animals[cluster.column][cluster.row + i]);
-                  animals[cluster.column][cluster.row + i].alpha = 0.2;
+                  removeAnimal(animals[cluster.column][cluster.row + i]);
+                  //animals[cluster.column][cluster.row + i].alpha = 0.2;
                   if(cluster.row !== 0) {
                     for(let j = cluster.row; j > -1; j--) {
-                      chm.slide(animals[cluster.column][j],cluster.column* 100, (cluster.row + j) * 100);
+                      chm.slide(animals[cluster.column][j],cluster.column* 100, (cluster.row + j) * 100, 60, "decelerationCubed");
                     }
                   }
                 }
               }
             });
+          }
+
+          function removeAnimal(animal) {
+            chm.fadeOut(animal, 40, "accelerationCubed");
+            chm.scale(animal, 0.4, 0.4, 60, "inverseSineCubed");
           }
 
           function getRandomInt(min, max) {
