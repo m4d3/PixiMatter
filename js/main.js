@@ -1,6 +1,5 @@
 /*jshint esversion: 6 */
-
-;(function() {
+; (function () {
   "use strict";
   let stage, renderer,
   loader = PIXI.loader,
@@ -176,42 +175,50 @@
                 console.log("horizontal: "+cluster.horizontal+" count: "+i);
                 if(cluster.horizontal) {
                   removeAnimal(animals[cluster.column + i][cluster.row]);
+
+                  for (let j=cluster.row; j > -1; j--) {
+                    chm.slide(animals[cluster.column + i][j],(cluster.column+i)* 100, (j + 1) * 100, 60, "decelerationCubed");
+                  }
                   //animals[cluster.column + i][cluster.row].alpha = 0.2;
-                  if(cluster.row !== 0) {
-                    for(let j = cluster.row; j > -1; j--) {
-                      chm.slide(animals[cluster.column + i][j],(cluster.column+i)* 100, (j + 1) * 100, 60, "decelerationCubed");
-                    }
-                  }
-                } else {
-                  removeAnimal(animals[cluster.column][cluster.row + i]);
-                  //animals[cluster.column][cluster.row + i].alpha = 0.2;
-                  if(cluster.row !== 0) {
-                    for(let j = cluster.row; j > -1; j--) {
-                      chm.slide(animals[cluster.column][j],cluster.column* 100, (cluster.row + j) * 100, 60, "decelerationCubed");
-                    }
-                  }
+                  /*if(cluster.row !== 0) {
+                  for(let j = cluster.row; j > -1; j--) {
+                  chm.slide(animals[cluster.column + i][j],(cluster.column+i)* 100, (j + 1) * 100, 60, "decelerationCubed");
                 }
+              } */
+            } else {
+              removeAnimal(animals[cluster.column][cluster.row + i]);
+
+              for (let j=cluster.row; j > -1; j--) {
+                chm.slide(animals[cluster.column][j],(cluster.column)* 100, (j + cluster.length) * 100, 60, "decelerationCubed");
               }
-            });
-          }
+              //animals[cluster.column][cluster.row + i].alpha = 0.2;
+              /*if(cluster.row !== 0) {
+              for(let j = cluster.row; j > -1; j--) {
+              chm.slide(animals[cluster.column][j],cluster.column* 100, (cluster.row + j) * 100, 60, "decelerationCubed");
+            }
+          } */
+        }
+      }
+    });
+  }
 
-          function removeAnimal(animal) {
-            chm.fadeOut(animal, 40, "accelerationCubed");
-            chm.scale(animal, 0.4, 0.4, 60, "inverseSineCubed");
-          }
+  function removeAnimal(animal) {
+    chm.fadeOut(animal, 40, "accelerationCubed");
+    chm.scale(animal, 0.4, 0.4, 60, "inverseSineCubed");
+  }
 
-          function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-          }
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-          function loop() {
-            requestAnimationFrame(loop);
+  function loop() {
+    requestAnimationFrame(loop);
 
-            chm.update();
+    chm.update();
 
-            renderer.render(stage);
-          }
+    renderer.render(stage);
+  }
 
-          preload();
+  preload();
 
-        }());
+}());
